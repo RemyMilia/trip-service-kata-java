@@ -1,7 +1,4 @@
-Testing legacy code: Hard-wired dependencies
-============================================
-
-Code related to my [Testing legacy code: Hard-wired dependencies][1] blog post. Try not reading the blog post before doing the exercise yourself.
+Fork from Sandro Mancuso trip-service kata. 
 
 What is it about?
 -----------------
