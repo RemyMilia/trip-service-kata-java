@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.craftedsw.tripservicekata.trip.UserBuilder.aUser;
 
 public class TripServiceTest {
 
@@ -39,9 +40,10 @@ public class TripServiceTest {
     public void should_not_return_no_trips_when_users_user_are_not_friends() {
         loggedInUser = REGISTERED_USER;
 
-        User friend = new User();
-        friend.addFriend(ANOTHER_USER);
-        friend.addTrip(TO_PARIS);
+        User friend = aUser()
+                .withFriends(ANOTHER_USER)
+                .withTrips(TO_PARIS)
+                .build();
 
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertThat(friendTrips).isEqualTo(Collections.EMPTY_LIST);
@@ -49,11 +51,14 @@ public class TripServiceTest {
 
     @Test
     public void should_return_friends_trips_when_users_are_friends() {
+
         loggedInUser = REGISTERED_USER;
-        User friend = new User();
-        friend.addFriend(loggedInUser);
-        friend.addTrip(TO_PARIS);
-        friend.addTrip(TO_LONDON);
+
+        User friend = aUser()
+                .withFriends(loggedInUser)
+                .withTrips(TO_PARIS, TO_LONDON)
+                .build();
+
         List<Trip> friendTrips = tripService.getTripsByUser(friend);
         assertThat(friendTrips.size()).isEqualTo(2);
     }
@@ -70,5 +75,4 @@ public class TripServiceTest {
             return user.trips();
         }
     }
-
 }
