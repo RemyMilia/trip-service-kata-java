@@ -8,11 +8,18 @@ import java.util.List;
 
 public class TripService {
 
-    protected List<Trip> getTripsByUser(User user, User loggedInUser) throws UserNotLoggedInException {
+
+    private TripDAO tripDAO;
+
+    public TripService(TripDAO tripDAO) {
+        this.tripDAO = tripDAO;
+    }
+
+    protected List<Trip> getTripsByUser(User friend, User loggedInUser) throws UserNotLoggedInException {
         if (loggedInUser == null) {
             throw new UserNotLoggedInException();
         }
-        return user.isFriendWith(loggedInUser) ? tripsByUser(user) : noTrips();
+        return friend.isFriendWith(loggedInUser) ? tripsByUser(friend) : noTrips();
 
     }
 
@@ -20,8 +27,8 @@ public class TripService {
         return Collections.EMPTY_LIST;
     }
 
-    protected List<Trip> tripsByUser(User user) {
-        return TripDAO.findTripsByUser(user);
+    private List<Trip> tripsByUser(User user) {
+        return tripDAO.tripsBy(user);
     }
 
 }
