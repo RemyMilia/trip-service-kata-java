@@ -4,9 +4,6 @@ import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,8 +11,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.craftedsw.tripservicekata.trip.UserBuilder.aUser;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TripServiceTest {
 
     private static final User UNUSED_USER = null;
@@ -25,13 +22,13 @@ public class TripServiceTest {
     private static final Trip TO_PARIS = new Trip();
     private static final Trip TO_LONDON = new Trip();
 
-    @Mock
     private TripDAO tripDAO;
 
     private TripService realTripService;
 
     @Before
     public void setUp() {
+        tripDAO = mock(TripDAO.class);
         realTripService = new TripService(tripDAO);
     }
 
