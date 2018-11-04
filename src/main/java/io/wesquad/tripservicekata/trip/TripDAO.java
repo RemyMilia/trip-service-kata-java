@@ -1,15 +1,15 @@
 package io.wesquad.tripservicekata.trip;
 
-import java.util.List;
-
 import io.wesquad.tripservicekata.exception.CollaboratorCallException;
 import io.wesquad.tripservicekata.user.User;
 
+import java.util.List;
+
 public class TripDAO {
 
-	public static List<Trip> findTripsByUser(User user) {
-		throw new CollaboratorCallException(
-				"TripDAO should not be invoked on an unit test.");
-	}
-	
+    public List<Trip> findTripsByUser(User user) {
+        throw new CollaboratorCallException(
+                "TripDAO should not be invoked on an unit test.");
+    }
+
 }

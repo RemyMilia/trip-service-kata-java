@@ -6,9 +6,9 @@ import io.wesquad.tripservicekata.user.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TripServiceTest {
 
@@ -18,10 +18,12 @@ public class TripServiceTest {
     private TestableTripService tripService;
     private User loggedInUser = new User();
     private User bob;
+    private TripDAO tripDao;
 
     @Before
     public void setUp() {
-        tripService = new TestableTripService();
+        tripDao = mock(TripDAO.class);
+        tripService = new TestableTripService(tripDao);
         bob = new User();
     }
 
@@ -47,18 +49,19 @@ public class TripServiceTest {
     public void should_return_a_list_of_trips_if_user_is_friend_with_logged_in_user() {
         bob.addFriend(loggedInUser);
         bob.addTrip(TO_RIO);
+        when(tripDao.findTripsByUser(bob)).thenReturn(bob.trips());
         assertThat(tripService.getTripsByUser(bob)).isNotEmpty();
     }
 
     private class TestableTripService extends TripService {
+        public TestableTripService(TripDAO tripDAO) {
+            super(tripDAO);
+        }
+
         @Override
         protected User getLoggedUser() {
             return loggedInUser;
         }
 
-        @Override
-        protected List<Trip> findTripsByUser(User user) {
-            return user.trips();
-        }
     }
 }
